@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+
+	<body>
+		<script>
+			document.querySelector('html').style.fontSize = (document.body.clientWidth / 375 * 16 + 'px');
+		</script>
+		<div class="m-person-history">
+			<canvas id="canvas" style="background: #FF1C31;"></canvas>
+
+		</div>
+		<div class="m-person-history-tab">
+
+		</div>
+		<div class="m-person-history-date">
+			<span class="active">周</span>
+			<span>月</span>
+			<span>年</span>
+		</div>
+		<script src="js/jquery-2.2.3.min.js"></script>
+		<script src="js/custom.js"></script>
+		<script>
+			//canvas宽高设置 
+			var oCanvasW = $('.m-person-history').width();
+			var oCanvasH = $('.m-person-history').height();
+			$('#canvas').attr({
+					width: oCanvasW,
+					height: oCanvasH,
+				})
+				//canvas绘图空间初始化
+			var oC = document.getElementById('canvas')
+			var cxt = oC.getContext('2d');
+			//canvas高度系数
+			var iScale = 300 / oCanvasH;
+
+			//构建canvas元素
+			function chart(arrData,gap,prop) {
+				var arrWeek = [];
+				
+				for(var i = 0; i < arrData.length; i++) {
+					arrWeek.push(oCanvasH - (arrData[i] * iScale)); //y坐标转换
+				}
+				var iBase = document.body.clientWidth / 375 * gap;
+				cxt.clearRect(0, 0, oC.width, oC.height);
+				cxt.strokeStyle = 'white';
+				//起始位置
+				cxt.beginPath();
+				cxt.moveTo(0, arrWeek[0]);
+				cxt.lineTo(iBase, arrWeek[0]);
+				cxt.stroke();
+				cxt.closePath();
+				//结束位置
+				cxt.beginPath();
+				cxt.moveTo(oCanvasW - iBase, arrWeek[arrWeek.length - 1]);
+				cxt.lineTo(oCanvasW, arrWeek[arrWeek.length - 1]);
+				cxt.stroke();
+				cxt.closePath();
+
+				for(var i = 0; i < arrWeek.length; i++) { //画圆~连线
+					cxt.beginPath()
+					cxt.fillStyle = 'red';
+					cxt.arc(oCanvasW / arrWeek.length * i + iBase, arrWeek[i], 5, 0, 360, false);
+					cxt.fill();
+					cxt.moveTo(oCanvasW / arrWeek.length * i + iBase + 5, arrWeek[i]);
+					cxt.lineTo(oCanvasW / arrWeek.length * (i + 1) + iBase, arrWeek[i + 1])
+					cxt.stroke()
+					cxt.closePath();
+
+				}
+
+				//创建显示数据层
+				//i=-1，解决未创建aside前无法获取其高度
+				
+				for(var i = -1; i < arrWeek.length; i++) {
+					var disX = (oCanvasW / arrWeek.length) * i;
+					var disY = arrWeek[i] - $('.m-person-history aside').eq(0).height() * 0.7;
+					var asideHtml = $('<aside style=left:' + (disX-iBase/prop) + 'px;top:' + disY + 'px><em>' + arrData[i] + '斤</em><i></i><small></small></aside>');
+					$('.m-person-history').append(asideHtml);
+
+				}
+			}
+			//ajax
+			//初始化周数据
+			var aData = 0;
+			$.get('data.php?num=' + aData, function(data) {
+				chart(data,27,72);
+				weekData();
+			}, 'json').error(function(err) {
+				console.log(err)
+			});
+			//周~月~年~切换
+			$('.m-person-history-date').delegate('span', 'click', function() {
+					$(this).addClass('active').siblings('span').removeClass('active');
+					$('.m-person-history aside').remove();
+					$('.m-person-history-tab a').remove();
+					var _thisIndex = $(this).index();
+					$.get('data.php?num=' + $(this).index(), function(data) {
+						
+						if(_thisIndex == 0) { //周
+							chart(data,27,72);
+							weekData();
+						} else if(_thisIndex == 1) { //月
+							chart(data,7,0.35);
+							monthAndYearData(arrWeeks, data, 1, 2);
+						} else { //年
+							chart(data,16,1.5);
+							monthAndYearData(arrQuarter, data, 0, 1);
+						}
+					}, 'json').error(function(err) {
+						console.log(err)
+					});
+				})
+			//月数据和年数据
+			function monthAndYearData(arr, ajaxData, arrIndex1, arrIndex2) {
+				for(var i = 0; i < ajaxData.length; i++) {
+					if(Math.max.apply(null, ajaxData) == ajaxData[i]) {
+						$('.m-person-history aside').eq(i + 1).fadeIn();
+					}
+					if(Math.min.apply(null, ajaxData) == ajaxData[i]) {
+						$('.m-person-history aside').eq(i + 1).fadeIn();
+					}
+				}
+				for(var i = 0; i < arr.length; i++) {
+					var aHtml = $('<a href="javascript:;" style=width:' + 25 + '%>' + arr[i].split('-')[arrIndex1] + '/' + arr[i].split('-')[arrIndex2] + '</a>');
+					$('.m-person-history-tab').append(aHtml);
+				}
+				//禁掉切换数据事件
+				$('.m-person-history-tab').undelegate('click');
+			}
+			//周数据
+			function weekData() {
+				for(var i = 0; i < arrDays.length; i++) {
+					
+					var aHtml = $('<a href="javascript:;" >' + formatDate(new Date(arrDays[i])).split('-')[1]+'/'+formatDate(new Date(arrDays[i])).split('-')[2] + '</a>');
+					$('.m-person-history-tab').append(aHtml);
+				}
+				$('.m-person-history aside:last').fadeIn();
+				$('.m-person-history-tab a:last').addClass('active');
+				$('.m-person-history-tab').delegate('a', 'click', function() {
+					$(this).addClass('active').siblings('a').removeClass('active');
+					$('.m-person-history aside').eq($(this).index() + 1).fadeIn().siblings('aside').fadeOut();
+				})
+			}
+			//日期
+			var oDate = new Date();
+			var oYear = oDate.getFullYear();
+			var oMonth = oDate.getMonth() + 1;
+			var oDay = oDate.getDate();
+			var oWeek = oDate.getDay();
+			var arrDays = show(getWeekStartDate(), getWeekEndDate());
+			var arrWeeks = [];
+			var arrQuarter = [];
+
+			/***周End**/
+			//初始化年包含的季度
+			getQuarterOfYear();
+
+			function getQuarterOfYear() {
+				for(var i = 0; i < 4; i++) {
+					console.log((oMonth - 1 - 3 * i))
+					var weekStartDate = new Date(oYear, (oMonth - 1 - 3 * i));
+					arrQuarter.push(formatDate(weekStartDate));
+				}
+				return arrQuarter.reverse();
+			}
+			//初始化本月包含周
+			getWeekOfMonth()
+
+			function getWeekOfMonth() {
+				for(var i = 0; i < 4; i++) {
+					var weekStartDate = new Date(oYear, oMonth - 1, oDay - 7 * i);
+					arrWeeks.push(formatDate(weekStartDate));
+				}
+				return arrWeeks.reverse();
+			}
+			//初始化本周开始日期
+			function getWeekStartDate() {
+				var weekStartDate = new Date(oYear, oMonth - 1, oDay - 6);
+				return formatDate(weekStartDate);
+			}
+			//初始化本周结束日期
+			function getWeekEndDate() {
+				var weekEndDate = new Date(oYear, oMonth - 1, oDay);
+				return formatDate(weekEndDate);
+			}
+			//闰年方法
+			function isLeadYear(year) {
+				if(year % 4 == 0 && year % 100 != 0) {
+					return true;
+				} else {
+					if(year % 400 == 0) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+			//格式化日期：yyyy-MM-dd
+			function formatDate(date) {
+				var myyear = date.getFullYear();
+				var mymonth = date.getMonth() + 1;
+				var myweekday = date.getDate();
+				if(mymonth < 10) {
+					mymonth = "0" + mymonth;
+				}
+				if(myweekday < 10) {
+					myweekday = "0" + myweekday;
+				}
+				return(myyear + "-" + mymonth + "-" + myweekday);
+			}
+
+			function show(startTime, endTime) {
+				var getDate = function(str) {
+					var tempDate = new Date();
+					var list = str.split("-");
+					tempDate.setFullYear(list[0]);
+					tempDate.setMonth(list[1] - 1);
+					tempDate.setDate(list[2]);
+					return tempDate;
+				}
+				var date1 = getDate(startTime);
+				var date2 = getDate(endTime);
+				if(date1 > date2) {
+					var tempDate = date1;
+					date1 = date2;
+					date2 = tempDate;
+				}
+				date1.setDate(date1.getDate() + 1);
+				var dates = [startTime],
+					id = 1;
+				while(!(date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth() && date1.getDate() == date2.getDate())) {
+					dates[id] = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();
+					id++;
+					date1.setDate(date1.getDate() + 1);
+				}
+				dates[dates.length] = endTime;
+				return dates;
+			};
+		</script>
+	</body>
+
+</html>

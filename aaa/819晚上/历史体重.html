@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+
+	<body>
+		<script>
+			document.querySelector('html').style.fontSize = (document.body.clientWidth / 375 * 16 + 'px');
+			
+		</script>
+		<div class="m-person-history">
+			<canvas id="canvas" style="background: #FF1C31;"></canvas>
+		</div>
+		<div class="m-person-history-tab">
+
+		</div>
+		<div class="m-person-history-date">
+			<span class="active">周</span>
+			<span>月</span>
+			<span>年</span>
+		</div>
+		<script src="js/jquery-2.2.3.min.js"></script>
+		<script>
+			//canvas宽高设置 
+			var oCanvasW = $('.m-person-history').width();
+			var oCanvasH = $('.m-person-history').height();
+			$('#canvas').attr({
+					width: oCanvasW,
+					height: oCanvasH,
+				})
+				//canvas操作
+			var oC = document.getElementById('canvas')
+			var cxt = oC.getContext('2d');
+			var iScale=300/oCanvasH;
+			var arrWeekData=[120, 134, 156, 132, 123, 142, 280];	//周数据
+			var arrWeek = [];
+			for(var i=0;i<arrWeekData.length;i++)
+				{
+					arrWeek.push(oCanvasH-(arrWeekData[i]*iScale));
+				}
+				
+			var iBase=document.body.clientWidth / 375 * 27;
+			
+			
+			
+			cxt.strokeStyle = 'white';
+			//起始位置
+			cxt.beginPath();
+			cxt.moveTo(0,arrWeek[0]);
+			cxt.lineTo(iBase,arrWeek[0]);
+			cxt.stroke();
+			cxt.closePath();
+			//结束位置
+			cxt.beginPath();
+			cxt.moveTo(oCanvasW-iBase,arrWeek[arrWeek.length-1]);
+			cxt.lineTo(oCanvasW,arrWeek[arrWeek.length-1]);
+			cxt.stroke();
+			cxt.closePath();
+			for (var i = 0; i < arrWeek.length; i++) {
+				cxt.beginPath()
+				cxt.fillStyle='red';
+				
+				cxt.arc(oCanvasW / arrWeek.length * i + iBase, arrWeek[i], 5, 0, 360, false);
+				cxt.fill();
+				cxt.moveTo(oCanvasW / arrWeek.length * i+iBase+5, arrWeek[i]);
+				cxt.lineTo(oCanvasW / arrWeek.length * (i+1)+iBase, arrWeek[i+1])
+				cxt.stroke()
+				cxt.closePath();
+			}
+			
+			//日期
+			var oDate = new Date();
+			var oYear = oDate.getFullYear();
+			var oMonth = oDate.getMonth() + 1;
+			var oDay = oDate.getDate();
+			var oWeek = oDate.getDay();
+			var arrDays = show(getWeekStartDate(), getWeekEndDate());
+			for (var i = 0; i < arrDays.length; i++) {
+				var aHtml = $('<a href="javascript:;" >' + formatDate(new Date(arrDays[i])).substring(5).replace(/-/g, '/') + '</a>');
+				$('.m-person-history-tab').append(aHtml);
+			}
+			//初始化本周开始日期
+			function getWeekStartDate() {
+				var weekStartDate = new Date(oYear, oMonth - 1, oDay - 6);
+				return formatDate(weekStartDate);
+			}
+			//初始化本周结束日期
+			function getWeekEndDate() {
+				var weekEndDate = new Date(oYear, oMonth - 1, oDay);
+				return formatDate(weekEndDate);
+			}
+			//闰年方法
+			function isLeadYear(year) {
+				if (year % 4 == 0 && year % 100 != 0) {
+					return true;
+				} else {
+					if (year % 400 == 0) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+			//格式化日期：yyyy-MM-dd
+			function formatDate(date) {
+				var myyear = date.getFullYear();
+				var mymonth = date.getMonth() + 1;
+				var myweekday = date.getDate();
+				if (mymonth < 10) {
+					mymonth = "0" + mymonth;
+				}
+				if (myweekday < 10) {
+					myweekday = "0" + myweekday;
+				}
+				return (myyear + "-" + mymonth + "-" + myweekday);
+			}
+
+			function show(startTime, endTime) {
+				var getDate = function(str) {
+					var tempDate = new Date();
+					var list = str.split("-");
+					tempDate.setFullYear(list[0]);
+					tempDate.setMonth(list[1] - 1);
+					tempDate.setDate(list[2]);
+					return tempDate;
+				}
+				var date1 = getDate(startTime);
+				var date2 = getDate(endTime);
+				if (date1 > date2) {
+					var tempDate = date1;
+					date1 = date2;
+					date2 = tempDate;
+				}
+				date1.setDate(date1.getDate() + 1);
+				var dates = [startTime],
+					id = 1;
+				while (!(date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth() && date1.getDate() == date2.getDate())) {
+					dates[id] = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();
+					id++;
+					date1.setDate(date1.getDate() + 1);
+				}
+				dates[dates.length] = endTime;
+				return dates;
+			};
+			/*
+			for (var i = 7; i > 0; i--) {
+				var aHtml = $('<a href="javascript:;" >' + oMonth + '/' + (oDay - i + 1) + '</a>');
+				$('.m-person-history-tab').append(aHtml);
+			}*/
+		</script>
+	</body>
+
+</html>

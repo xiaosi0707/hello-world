@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+	<body>
+		<script>
+			document.querySelector('html').style.fontSize = (document.body.clientWidth / 375 * 16 + 'px');
+		</script>
+		
+		<div class="m-person-message">
+			<span><input type="text" value="120" disabled="disabled" /><small>斤</small><aside>体重</aside></span>
+			<span><input type="text" value="22.8" disabled="disabled" /><small>%</small><aside>体脂率</aside></span>
+			<span><input type="text" value="22" disabled="disabled" /><aside>BMI</aside></span>
+			<span><input type="text" value="标准" disabled="disabled" id="js-type"/><aside>肥胖类型</aside></span>
+			<span><input type="text" value="1315" disabled="disabled" /><aside>基础代谢</aside></span>
+			<span><input type="text" value="78" disabled="disabled" /><small>cm</small><aside>腰围</aside></span>
+			<span><input type="text" value="88" disabled="disabled" /><small>cm</small><aside>臀围</aside></span>
+			<span><input type="text" value="28" disabled="disabled" /><small>cm</small><aside>上臀</aside></span>
+			<span><input type="text" value="38" disabled="disabled" /><small>cm</small><aside>大腿</aside></span>
+		</div>
+		<div class="m-btn-fixed" isClick='no' id="js-body">
+			编辑 
+		</div>
+		<div class="m-radio-menu">
+			<p>请选择</p>
+			<ul>
+				
+			</ul>
+		</div>
+		<div class="m-layer"></div>
+		<script src="js/jquery-2.2.3.min.js"></script>
+		<script src="js/custom.js"></script>
+	</body>
+</html>

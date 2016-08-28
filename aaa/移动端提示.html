@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style>
+			/*提示*/
+			
+			#tipMessage {
+				width: 100%;
+				text-align: center;
+				padding: 7px 0;
+				overflow: hidden;
+				position: fixed;
+				opacity: 0;
+				-webkit-transition: .7s;
+				z-index: -1;
+			}
+			
+			#tipMessage span {
+				display: inline-block;
+				border-radius: 2px;
+				background: #818181;
+				padding: 7px 12px;
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body>
+		<input type="button" value="下一步" id="jk-login" />
+		<div id="tipMessage">
+			<span></span>
+		</div>
+		<script src="js/jquery-2.2.3.min.js"></script>
+		<script>
+			//初始化
+			var tipHeight = $('#tipMessage').height();
+			$('#tipMessage').css('bottom', -(tipHeight + 24) + 'px')
+				//提示信息方法
+			function fnTip(text) {
+				$('#tipMessage span').text(text)
+					//show
+				$('#tipMessage').css({
+						'z-index': 10000,
+						'bottom': 12 + '%',
+						'opacity': 0.9
+					})
+					//hide
+				setTimeout(function() {
+					$('#tipMessage').css({
+						'z-index': -1,
+						'bottom': -(tipHeight + 24) + 'px',
+						'opacity': 0
+					})
+
+				}, 3000)
+			}
+			$('#jk-login').on('click', function() {
+				fnTip('请输入正确的手机号码')
+					/*请输入正确的手机号码*/
+					/*手机号码已注册过*/
+					/*验证码错误*/
+					/*验证码超时*/
+					/*请设置6-16个字符的密码*/
+			})
+		</script>
+	</body>
+
+</html>

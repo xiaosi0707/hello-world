@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/recipe.css" />
+	</head>
+
+	<body>
+		<script>
+			document.querySelector('html').style.fontSize = (document.body.clientWidth / 320 * 16 + 'px');
+		</script>
+		<!-- 默认星期切换 -->
+		<div class="re__date">
+			<p class="re__date--text">
+				<a href="##" id="re__js--date">
+
+				</a>
+			</p>
+			<a href="##" class="re__arrow--left"></a>
+			<a href="##" class="re__arrow--right"></a>
+		</div>
+		<!-- 展开月信息 -->
+		<div class="re__calendar--modal" id="modal">
+			<div class="re__calendar">
+				<div class="re__calendar--date">
+
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/date.js"></script>
+		<script>
+			//初始化日历
+			calendarInit();
+			//下一周
+			$('.re__arrow--right').click(function() {
+					iNum++;
+					weekUpDown();
+				})
+				//上一周
+			$('.re__arrow--left').click(function() {
+					iNum--;
+					weekUpDown();
+				})
+				//展开日历
+			$('#re__js--date').click(function() {
+					$('#modal').slideDown('fast');
+				})
+				//收起日历
+			$('.re__calendar--date').delegate('#js__btn--up', 'click', function() {
+					$('#modal').slideUp('fast');
+				})
+				//根据选中日期，定位星期区间，传参this
+			$('.re__calendar--date').delegate('tr td', 'click', function() {
+					selectDay($(this));
+					//返回选中日期
+					console.log(selectDay($(this)))
+				})
+				//回今天
+			$('.re__calendar--date').delegate('.back--today', 'click', function() {
+					backToday();
+					$('.back--today').hide();
+				})
+				//下一月
+			$('.re__calendar--date').delegate('.cycle--right', 'click', function() {
+
+					nextMonth();
+				})
+				//上一月
+			$('.re__calendar--date').delegate('.cycle--left', 'click', function() {
+
+				prevMonth();
+			})
+		</script>
+	</body>
+
+</html>

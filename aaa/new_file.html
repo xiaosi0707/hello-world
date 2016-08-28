@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button id='jian'>减</button>
+		<button id='jia'>加</button>
+		<div id="div"></div>
+		<script src="js/jquery-2.2.3.min.js"></script>
+		<script>
+			var oDate=new Date();
+			var oYear=oDate.getFullYear();
+			var oMonth=oDate.getMonth()+1;
+			var oDay=oDate.getDate();
+			if(oMonth==1 || oMonth==3 || oMonth==5 || oMonth==7 || oMonth==8 || oMonth==10 || oMonth==12){
+			oMonth = 31;
+		}
+		else if(oMonth==4 || oMonth==6 || oMonth==9 || oMonth==11){
+			oMonth = 30;
+		}
+		else if(oMonth==2 && isLeapYear(oYear)){
+			oMonth = 29;
+		}
+		else{
+			oMonth = 28;
+		}
+			var i=0;
+			oDate.setFullYear(oYear);
+			oDate.setMonth(oMonth);
+			oDate.setDate(oDate.getDate());
+			$('#jia').click(function(){
+				i++;
+				$('#div').html(oYear+'年'+(new Date().getMonth()+1)+'月'+(oDay+i)+'日');
+			})
+		function isLeapYear(oYear){
+		if(oYear%4==0 && oYear%100!=0){
+			return true;
+		}
+		else{
+			if(oYear%400==0){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
+		</script>
+	</body>
+</html>

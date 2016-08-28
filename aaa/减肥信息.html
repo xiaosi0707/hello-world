@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/mobiscroll_002.css" />
+		<link rel="stylesheet" type="text/css" href="css/mobiscroll_003.css" />
+	</head>
+
+	<body style="background:#F2F1F3 ;">
+		<script>
+			document.querySelector('html').style.fontSize = (document.body.clientWidth / 375 * 16 + 'px');
+		</script>
+		
+
+		<div class="m-user-upgrade">
+			<section class="m-user-upgrade-time m-user-input">
+				<label>身高(cm)</label>
+				<input type="tel" placeholder="请填写身高"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>体重(kg)</label>
+				<input type="tel" placeholder="请填写体重"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>脂肪量</label>
+				<input  type="text" placeholder="请填写脂肪量"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>脂肪率</label>
+				<input type="text"  placeholder="请填写脂肪率" />
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>BMI</label>
+				<input type="text" placeholder="请填写BMI"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>肥胖度</label>
+				<input type="text" placeholder="请填写肥胖度"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>胃围(cm)</label>
+				<input type="text" placeholder="请填写胃围"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>腰围(cm)</label>
+				<input type="text" placeholder="请填写腰围"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>臀围(cm)</label>
+				<input type="text" placeholder="请填写臀围"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>大腿围(cm)</label>
+				<input type="text" placeholder="请填写大腿围"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>何时开始发胖</label>
+				<input type="text" placeholder="请选择发胖时间" readonly="readonly" id="js-fat-time"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>有无家族肥胖史</label>
+				<input type="text" placeholder="请选择有无家族肥胖史" readonly="readonly" id="js-fat-history"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>曾用过的减肥方法</label>
+				<input type="text" placeholder="请选择曾用过的减肥方法" readonly="readonly" id="js-way"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>最多减肥多少斤</label>
+				<input type="text" placeholder="请填写最多减多少斤"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>生育前体重</label>
+				<input type="text"  placeholder="请填写生育前体重"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>爱好</label>
+				<input type="text"  placeholder="请填写爱好"/>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>家人支持减肥吗</label>
+				<input type="text"  placeholder="请选择家人是否支持" readonly="readonly" id="js-support"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>经常做何种运动</label>
+				<input type="text"  placeholder="请选择运动方式" readonly="readonly" id="js-sports"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>月经是否正常</label>
+				<input type="text"  placeholder="请选择月经是否正常" readonly="readonly" id="js-spe"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>大便一天几次</label>
+				<input type="text"  placeholder="请选择大便次数" readonly="readonly" id="js-shit"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>经常用降压药吗</label>
+				<input type="text"  placeholder="请选择降压药使用情况" readonly="readonly" id="js-drug"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+			<section class="m-user-upgrade-time m-user-input">
+				<label>你想减多少斤</label>
+				<input type="text"  placeholder="请选择减肥目标" readonly="readonly" id="js-target"/>
+				<i><img src="img/jiantou.png"/></i>
+			</section>
+		</div>
+		<div class="m-placeholder"><!---占位符---></div>
+		<div class="m-btn-fixed">
+			提交 
+		</div>
+		<div class="m-radio-menu">
+			<p>请选择</p>
+			<ul>
+				
+			</ul>
+		</div>
+		<div class="m-layer"></div>
+		<div class="m-user-upgrade-layer m-check">
+			<dl>
+				<dt>经常做何种运动</dt>
+				<dd><img src="img/close.png" class="m-close"/></dd>
+			</dl>
+			<ul>
+				<li class="active" flag='false'>
+					<span></span><font>散步</font>
+				</li>
+				<li flag='false'>
+					<span></span><font>跑步</font>
+				</li>
+				<li flag='false'>
+					<span></span><font>健身操</font>
+				</li>
+				<li flag='false'>
+					<span></span><font>游泳</font>
+				</li>
+				<li flag='false'>
+					<span></span><font>健身操</font>
+				</li>
+				<li flag='false' style="width: 100%;">
+					<span></span><font>其它</font>
+					<input type="text" />
+				</li>
+			</ul>
+			<a href="javascript:;">确定</a>
+		</div>
+		<script src="js/jquery-2.2.3.min.js"></script>
+		<script src="js/custom.js"></script>
+		<script src="js/mobiscroll_002.js" type="text/javascript"></script>
+		<script src="js/mobiscroll.js" type="text/javascript"></script>
+		<script src="js/mobiscroll_003.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(function() {
+				var currYear = (new Date()).getFullYear();
+				var opt = {};
+				opt.date = {
+					preset: 'date'
+				};
+				opt.datetime = {
+					preset: 'datetime'
+				};
+				opt.time = {
+					preset: 'time'
+				};
+				opt.default = {
+					theme: 'android-ics light', //皮肤样式
+					display: 'modal', //显示方式 
+					mode: 'scroller', //日期选择模式
+					dateFormat: 'yyyy-mm-dd',
+					lang: 'zh',
+					showNow: true,
+					nowText: "今天",
+					startYear: currYear - 100, //开始年份
+					endYear: currYear //结束年份
+				};
+				//$("#age").mobiscroll($.extend(opt['date'], opt['default']));
+				$("#js-fat-time").mobiscroll($.extend(opt['date'], opt['default']));
+				var optDateTime = $.extend(opt['datetime'], opt['default']);
+				var optTime = $.extend(opt['time'], opt['default']);
+				$("#appDateTime").mobiscroll(optDateTime).datetime(optDateTime);
+				$("#appTime").mobiscroll(optTime).time(optTime);
+				
+				
+			});
+			
+		</script>
+	</body>
+
+</html>
